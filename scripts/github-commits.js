@@ -16,7 +16,7 @@ data.forEach(ghEvent => {
         cleanEvent.repoName = ghEvent.repo.name;
         cleanEvent.repoUrl = ghEvent.repo.url;
         cleanData[ghEvent.type].push(ghEvent);
-        cleanEventName = `Clean${ghEvent.type}`;
+        const cleanEventName = `Clean${ghEvent.type}`;
         if (cleanData[cleanEventName] === undefined) {
             cleanData[cleanEventName] = [];
         }
