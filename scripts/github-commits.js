@@ -4,6 +4,16 @@ import { readJSON, writeJSON } from 'https://deno.land/x/flat/mod.ts';
 const filename = Deno.args[0];
 const data = await readJSON(filename);
 
+const cleanData = {
+    'PushEvent': [],
+    'CreateEvent': [],
+    'WatchEvent': []
+};
+
 data.forEach(ghEvent => {
-    console.log(ghEvent);
+    if (cleanData[ghEvent.type]) {
+        cleanData[ghEvent.type].push(ghEvent);
+    }
 });
+
+await writeJSON('recent_github_activity.json', cleanData);
