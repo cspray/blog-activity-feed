@@ -12,7 +12,11 @@ const cleanData = {
 
 data.forEach(ghEvent => {
     if (cleanData[ghEvent.type]) {
+        const cleanEvent = {};
+        cleanEvent.repoName = ghEvent.repo.name;
+        cleanEvent.repoUrl = ghEvent.repo.url;
         cleanData[ghEvent.type].push(ghEvent);
+        cleanData[`Clean${ghEvent.type}`].push(cleanEvent);
     }
 });
 
