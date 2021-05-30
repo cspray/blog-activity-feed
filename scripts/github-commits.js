@@ -15,9 +15,9 @@ data.forEach(ghEvent => {
         const cleanEvent = {};
         cleanEvent.id = ghEvent.id;
         cleanEvent.payload = {};
+        cleanEvent.payload.repoName = ghEvent.repo.name;
+        cleanEvent.payload.repoUrl = `https://github.com/${ghEvent.repo.name}`;
         if (ghEvent.type === 'PushEvent') {
-            cleanEvent.payload.repoName = ghEvent.repo.name;
-            cleanEvent.payload.repoUrl = `https://github.com/${ghEvent.repo.name}`;
             cleanEvent.payload.branch = ghEvent.payload.ref.replace('refs/heads/', '');
             cleanEvent.payload.branchUrl =  `${cleanEvent.payload.repoUrl}/tree/${cleanEvent.payload.branch}`;
             cleanEvent.payload.head = ghEvent.payload.head.substring(0, 7);
