@@ -21,7 +21,7 @@ data.forEach(ghEvent => {
         if (ghEvent.type === 'PushEvent') {
             cleanEvent.payload.ref = ghEvent.payload.ref;
             cleanEvent.payload.head = ghEvent.payload.head;
-            activityMessages.push(`Pushed ${ghEvent.payload.head} to ${ghEvent.repo.name} ${ghEvent.payload.ref}`)
+            activityMessages.push(`Pushed ${ghEvent.payload.head.substring(0, 6)} to <a href="${ghEvent.repo.url}">${ghEvent.repo.name}</a> ${ghEvent.payload.ref}`)
 
         } else if (ghEvent.type === 'WatchEvent') {
             cleanEvent.payload.action = ghEvent.payload.action;
