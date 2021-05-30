@@ -9,6 +9,7 @@ const cleanData = {
     'CreateEvent': [],
     'WatchEvent': []
 };
+const activityMessages = [];
 
 data.forEach(ghEvent => {
     if (cleanData[ghEvent.type]) {
@@ -20,6 +21,8 @@ data.forEach(ghEvent => {
         if (ghEvent.type === 'PushEvent') {
             cleanEvent.payload.ref = ghEvent.payload.ref;
             cleanEvent.payload.head = ghEvent.payload.head;
+            activityMessages.push(`Pushed ${ghEvent.payload.head} to ${ghEvent.repo.name} ${ghEvent.payload.ref}`)
+
         } else if (ghEvent.type === 'WatchEvent') {
             cleanEvent.payload.action = ghEvent.payload.action;
         }
@@ -36,3 +39,4 @@ data.forEach(ghEvent => {
 });
 
 await writeJSON('recent_github_activity.json', cleanData);
+await writeJSON('recent_github_activity_messages.json', activityMessages);
