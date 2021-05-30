@@ -19,9 +19,9 @@ data.forEach(ghEvent => {
             cleanEvent.payload.repoName = ghEvent.repo.name;
             cleanEvent.payload.repoUrl = `https://github.com/${ghEvent.repo.name}`;
             cleanEvent.payload.branch = ghEvent.payload.ref.replace('refs/heads/', '');
-            cleanEvent.payload.branchUrl =  `${cleanEvent.repoUrl}/tree/${cleanEvent.payload.branch}`;
+            cleanEvent.payload.branchUrl =  `${cleanEvent.payload.repoUrl}/tree/${cleanEvent.payload.branch}`;
             cleanEvent.payload.head = ghEvent.payload.head.substring(0, 7);
-            cleanEvent.payload.headUrl = `${cleanEvent.repoUrl}/commit/${ghEvent.payload.head}`;
+            cleanEvent.payload.headUrl = `${cleanEvent.payload.repoUrl}/commit/${ghEvent.payload.head}`;
 
         } else if (ghEvent.type === 'WatchEvent') {
             cleanEvent.payload.action = ghEvent.payload.action;
