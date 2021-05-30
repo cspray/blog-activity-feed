@@ -9,7 +9,6 @@ const cleanData = {
     'CreateEvent': [],
     'WatchEvent': []
 };
-const activityMessages = [];
 
 data.forEach(ghEvent => {
     if (cleanData[ghEvent.type]) {
@@ -19,24 +18,17 @@ data.forEach(ghEvent => {
         cleanEvent.repoUrl = ghEvent.repo.url;
         cleanEvent.payload = {};
         if (ghEvent.type === 'PushEvent') {
-            cleanEvent.payload.ref = ghEvent.payload.ref;
-            cleanEvent.payload.head = ghEvent.payload.head;
-            activityMessages.push(`Pushed ${ghEvent.payload.head.substring(0, 7)} to <a href="${ghEvent.repo.url}">${ghEvent.repo.name}/${ghEvent.payload.ref.replace('refs/heads/', '')}</a>`);
+            cleanEvent.payload.branch = ghEvent.payload.ref.replace('refs/heads/', '');
+            cleanEvent.payload.branchUrl =  `${cleanEvent.repoUrl}/tree/${cleanEvent.payload.branch}`;
+            cleanEvent.payload.head = ghEvent.payload.head.substring(0, 7);
+            cleanEvent.payload.headUrl = `${cleanEvent.repoUrl}/commit/${ghEvent.payload.head}`;
 
         } else if (ghEvent.type === 'WatchEvent') {
             cleanEvent.payload.action = ghEvent.payload.action;
         }
 
-
-        const cleanEventName = `Clean${ghEvent.type}`;
-        if (cleanData[cleanEventName] === undefined) {
-            cleanData[cleanEventName] = [];
-        }
-
-        cleanData[ghEvent.type].push(ghEvent);
-        cleanData[cleanEventName].push(cleanEvent);
+        cleanData[ghEvent.type].push(cleanEvent);
     }
 });
 
 await writeJSON('recent_github_activity.json', cleanData);
-await writeJSON('recent_github_activity_messages.json', activityMessages);
