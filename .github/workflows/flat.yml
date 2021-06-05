@@ -23,3 +23,9 @@ jobs:
           http_url: https://api.github.com/users/cspray/events/public
           downloaded_filename: github_commits.json
           postprocess: ./scripts/github-commits.js
+      - name: Fetch data
+        uses: githubocto/flat@v3
+        with:
+          http_url: https://api.stackexchange.com/2.2/me/answers?order=desc&sort=votes&site=stackoverflow&filter=!nL_HTxB8XR&access_token=${{
+            secrets.STACKOVERFLOW_API_TOKEN  }}
+          downloaded_filename: stackoverflow_answers.json
